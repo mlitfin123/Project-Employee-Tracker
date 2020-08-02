@@ -368,15 +368,176 @@ function start() {
         });
     }
 
-    function removeEmployee(){
+    async function removeEmployee(){
+        let employeeList = [];
+        const query = "SELECT * FROM employee";
+        connection.query(query, function (err, res) {
+            //console.log(res);
+            if (err) throw err;
+            for (i = 0; i < res.length; i++) {
+                var a = res[i].First_Name;
+                var b = res[i].Last_Name;
+                var empName = `${a} ${b}`;
+                employeeList.push(empName);
+            };
+            //console.log(employeeList);
+            return employeeList;
+        });
+        await new Promise(resolve => setTimeout(resolve, 200));
+        inquirer
+        .prompt(
+            {
+                type: 'list',
+                name: 'employee',
+                message: 'Select the employee you want to remove from the database.',
+                choices: employeeList
+            }
+        )
+        .then(function(answer){
+            const employee = answer.employee;
 
+            var firstName = ('"' + employee.split(" ")[0] + '"');
+            var lastName = ('"' + employee.split(" ")[1] + '"');
+            console.log(firstName);
+            console.log(lastName);
+
+            const query = `DELETE FROM employee WHERE First_Name = ${firstName} AND Last_Name = ${lastName}`;
+            connection.query(query, function (err, res) {
+                console.log(`The employee ${employee} was deleted successfully`)
+                if (err) {
+                    console.log(`The employee ${employee} could not be deleted`);
+                    throw err;
+                }
+            })
+            inquirer
+            .prompt({
+                name: "action",
+                type: "list",
+                message: "What would you like to do?",
+                choices: [
+                    "Back to the Start?",
+                    "Exit"
+                ]
+            })
+            .then(function (answers) {
+                if (answers.action === 'Back to the Start?') {
+                    start();
+                }
+                else if (answers.action === 'Exit') {
+                    connection.end();
+                }
+            })
+        })
+    };
+
+    async function removeDepartment(){
+        let deptList = [];
+        const query = "SELECT * FROM department";
+        connection.query(query, function (err, res) {
+            //console.log(res);
+            if (err) throw err;
+            for (i = 0; i < res.length; i++) {
+                var a = res[i].Department_Name;
+                deptList.push(a);
+            };
+            console.log(deptList);
+            return deptList;
+        });
+        await new Promise(resolve => setTimeout(resolve, 200));
+        inquirer
+        .prompt(
+            {
+                type: 'list',
+                name: 'department',
+                message: 'Select the department you want to remove from the database.',
+                choices: deptList
+            }
+        )
+        .then(function(answer){
+            const department = ('"' + answer.department + '"');
+
+            const query = `DELETE FROM department WHERE Department_Name = ${department}`;
+            connection.query(query, function (err, res) {
+                console.log(`The department ${department} was deleted successfully`)
+                if (err) {
+                    console.log(`The department ${department} could not be deleted`);
+                    throw err;
+                }
+            })
+            inquirer
+            .prompt({
+                name: "action",
+                type: "list",
+                message: "What would you like to do?",
+                choices: [
+                    "Back to the Start?",
+                    "Exit"
+                ]
+            })
+            .then(function (answers) {
+                if (answers.action === 'Back to the Start?') {
+                    start();
+                }
+                else if (answers.action === 'Exit') {
+                    connection.end();
+                }
+            })
+        })
     }
 
-    function removeDepartment(){
+    async function removeRole(){
+        let roleList = [];
+        const query = "SELECT * FROM role";
+        connection.query(query, function (err, res) {
+            //console.log(res);
+            if (err) throw err;
+            for (i = 0; i < res.length; i++) {
+                var a = res[i].Title;
+                roleList.push(a);
+            };
+            console.log(roleList);
+            return roleList;
+        });
+        await new Promise(resolve => setTimeout(resolve, 200));
+        inquirer
+        .prompt(
+            {
+                type: 'list',
+                name: 'role',
+                message: 'Select the role you want to remove from the database.',
+                choices: roleList
+            }
+        )
+        .then(function(answer){
+            const role = ('"' + answer.role + '"');
 
-    }
-
-    function removeRole(){
+            const query = `DELETE FROM role WHERE Title = ${role}`;
+            connection.query(query, function (err, res) {
+                console.log(`The role ${role} was deleted successfully`)
+                if (err) {
+                    console.log(`The role ${role} could not be deleted`);
+                    throw err;
+                }
+            })
+            inquirer
+            .prompt({
+                name: "action",
+                type: "list",
+                message: "What would you like to do?",
+                choices: [
+                    "Back to the Start?",
+                    "Exit"
+                ]
+            })
+            .then(function (answers) {
+                if (answers.action === 'Back to the Start?') {
+                    start();
+                }
+                else if (answers.action === 'Exit') {
+                    connection.end();
+                }
+            })
+        })
     
     }
 
