@@ -75,24 +75,7 @@ function start() {
         connection.query(query, function(err, res) {
             if (err) throw (err);
             console.table(`Employees:`, res)
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-        .then(function (answer) {
-            if (answer.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answer.action === 'Exit') {
-                connection.end();
-            }
-        })
+            restart();
         });
     };
         
@@ -101,24 +84,7 @@ function start() {
         connection.query(query, function(err, res) {
             if (err) throw (err);
             console.table(`DEPARTMENTS:`, res)
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-        .then(function (answer) {
-            if (answer.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answer.action === 'Exit') {
-                connection.end();
-            }
-        })
+            restart();
         });
     };
     
@@ -127,24 +93,7 @@ function start() {
         connection.query(query, function(err, res) {
             if (err) throw (err);
             console.table(`Roles:`, res)
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-        .then(function (answer) {
-            if (answer.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answer.action === 'Exit') {
-                connection.end();
-            }
-        })
+            restart();
         });
     };
     
@@ -160,24 +109,7 @@ function start() {
         connection.query(query, answer.department, function(err, res) {
             if (err) throw (err);
             console.log(`You have added this department: ${(answer.department).toUpperCase()}.`)
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-        .then(function (answer) {
-            if (answer.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answer.action === 'Exit') {
-                connection.end();
-            }
-        })
+            restart();
         })
     })
     }
@@ -236,24 +168,7 @@ function start() {
             connection.query(`INSERT INTO role (Title, Salary, Department_ID) VALUES (${values})`);
 
             console.log(`You have added this role: ${(answers.role).toUpperCase()}.`)
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-        .then(function (answers) {
-            if (answers.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answers.action === 'Exit') {
-                connection.end();
-            }
-        })
+            restart();
         });
 });
 }
@@ -341,29 +256,12 @@ function start() {
         await new Promise(resolve => setTimeout(resolve, 200));
 
         values = [firstName, lastName, role_id, manager_id];
-        console.log(values);
+        //console.log(values);
 
         connection.query(`INSERT INTO employee (First_Name, Last_Name, Role_ID, Manager_ID) VALUES (${values})`);
         if (err) throw (err);
         console.log(`You have added the employee: ${(answers.firstName).toUpperCase()} ${(answers.lastName).toUpperCase()}`)
-        inquirer
-        .prompt({
-            name: "action",
-            type: "list",
-            message: "What would you like to do?",
-            choices: [
-                "Back to the Start?",
-                "Exit"
-            ]
-        })
-        .then(function (answers) {
-            if (answers.action === 'Back to the Start?') {
-                start();
-            }
-            else if (answers.action === 'Exit') {
-                connection.end();
-            }
-        })
+        restart();
         });
         });
     }
@@ -398,8 +296,8 @@ function start() {
 
             var firstName = ('"' + employee.split(" ")[0] + '"');
             var lastName = ('"' + employee.split(" ")[1] + '"');
-            console.log(firstName);
-            console.log(lastName);
+            //console.log(firstName);
+            //console.log(lastName);
 
             const query = `DELETE FROM employee WHERE First_Name = ${firstName} AND Last_Name = ${lastName}`;
             connection.query(query, function (err, res) {
@@ -409,24 +307,7 @@ function start() {
                     throw err;
                 }
             })
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-            .then(function (answers) {
-                if (answers.action === 'Back to the Start?') {
-                    start();
-                }
-                else if (answers.action === 'Exit') {
-                    connection.end();
-                }
-            })
+            restart();
         })
     };
 
@@ -440,7 +321,7 @@ function start() {
                 var a = res[i].Department_Name;
                 deptList.push(a);
             };
-            console.log(deptList);
+            //console.log(deptList);
             return deptList;
         });
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -464,24 +345,7 @@ function start() {
                     throw err;
                 }
             })
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-            .then(function (answers) {
-                if (answers.action === 'Back to the Start?') {
-                    start();
-                }
-                else if (answers.action === 'Exit') {
-                    connection.end();
-                }
-            })
+            restart();
         })
     }
 
@@ -495,7 +359,7 @@ function start() {
                 var a = res[i].Title;
                 roleList.push(a);
             };
-            console.log(roleList);
+            //console.log(roleList);
             return roleList;
         });
         await new Promise(resolve => setTimeout(resolve, 200));
@@ -513,35 +377,124 @@ function start() {
 
             const query = `DELETE FROM role WHERE Title = ${role}`;
             connection.query(query, function (err, res) {
-                console.log(`The role ${role} was deleted successfully`)
                 if (err) {
                     console.log(`The role ${role} could not be deleted`);
                     throw err;
                 }
+                else console.log(`The role ${role} was deleted successfully`);
             })
-            inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "What would you like to do?",
-                choices: [
-                    "Back to the Start?",
-                    "Exit"
-                ]
-            })
-            .then(function (answers) {
-                if (answers.action === 'Back to the Start?') {
-                    start();
-                }
-                else if (answers.action === 'Exit') {
-                    connection.end();
-                }
-            })
+            restart();
         })
-    
     }
 
-    function updateRole() {
+    async function updateRole() {
+        let employeeList = [];
+        let roleList = [];
 
+        var employeeQuery = "SELECT * FROM employee";
+        var roleQuery = "SELECT * FROM role";
+        connection.query(employeeQuery, function(err, res) {
+            //console.log(res);
+            if (err) throw err;
+            for (i = 0; i < res.length; i++) {
+                var a = res[i].First_Name;
+                var b = res[i].Last_Name;
+                var empName = `${a} ${b}`;
+                employeeList.push(empName);
+            }
+            //console.log(employeeList);
+            return employeeList;
+        });
 
-    }
+        connection.query(roleQuery, function(err, res) {
+            //console.log(res);
+            if (err) throw err;
+            for (i = 0; i < res.length; i++) {
+                var a = res[i].Title;
+                roleList.push(a);
+            }
+            //console.log(roleList);
+            return roleList;
+        });
+        await new Promise(resolve => setTimeout(resolve, 200));
+
+        inquirer
+        .prompt([
+            {
+                type: 'list',
+                name: 'employee',
+                message: 'Select an employee to update their job title:',
+                choices: employeeList
+            }
+        ])
+        .then(async function(answer){
+            const employee = answer.employee;
+            let employee_id;
+            let role_id;
+
+            var firstName = ('"' + employee.split(" ")[0] + '"');
+            var lastName = ('"' + employee.split(" ")[1] + '"');
+            //console.log(firstName);
+            //console.log(lastName);
+
+            var query = `SELECT * FROM employee WHERE First_Name = ${firstName} AND Last_Name = ${lastName}`;
+            connection.query(query, function (err, res) {
+                console.table(`Employees:`, res)
+                employee_id = res[0].id;
+                if (err) {
+                    console.log(`The employee ${employee} could not be found`);
+                    throw err;
+                }
+                return employee_id;
+            })
+            await new Promise(resolve => setTimeout(resolve, 200));
+            inquirer
+            .prompt([
+                {
+                    name: 'role',
+                    type: 'list',
+                    message: 'Select a job role to assign to this employee:',
+                    choices: roleList
+                }
+            ])
+            .then(async function(answer) {
+                let role = answer.role;
+                var query = `SELECT id FROM role WHERE Title = "${role}"`;
+
+                connection.query(query, function (err, res) {
+                    if (err) throw (err);
+                    role_id = res[0].id;
+                })
+                await new Promise(resolve => setTimeout(resolve, 200));
+                var query1 = `UPDATE employee SET Role_ID = ${role_id} WHERE id = ${employee_id}`;
+                connection.query(query1, function (err, res) {
+                    if (err) {
+                        console.log(`The employee ${employee} could not be updated`);
+                        throw err;
+                    }
+                    else console.log(`The employee ${employee} was updated successfully`);
+            })
+            restart();
+        })
+    })
+}
+function restart () {
+    inquirer
+    .prompt({
+        name: "action",
+        type: "list",
+        message: "What would you like to do?",
+        choices: [
+            "Back to the Start?",
+            "Exit"
+        ]
+    })
+    .then(function (answers) {
+        if (answers.action === 'Back to the Start?') {
+            start();
+        }
+        else if (answers.action === 'Exit') {
+            connection.end();
+        }
+    })
+}
