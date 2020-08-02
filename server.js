@@ -114,6 +114,7 @@ function start() {
     })
     }
     
+    //async function is used to create a wait time between the database query and inquire questions
     async function addRole() {
         let deptList = [];
         let dept_id;
@@ -478,6 +479,7 @@ function start() {
         })
     })
 }
+//function to be called to restart or quit the program
 function restart () {
     inquirer
     .prompt({
